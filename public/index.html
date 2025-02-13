@@ -1,5 +1,33 @@
 <!DOCTYPE html>
 <html>
+<style>
+    h1,
+    select {
+        display: none;
+    }
+
+    video {
+        position: absolute;
+        width: 100%;
+        left: 0px;
+        top: 0px;
+        z-index: 0;
+    }
+
+    button {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        background-color: rgb(237, 34, 34);
+        color: white;
+        border: none;
+        opacity: 0;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 1;
+    }
+</style>
 
 <body>
     <h1>Magniv</h1>
@@ -7,5 +35,43 @@
         <source src="/video" type="video/mp4">
     </video>
 </body>
+<select id="quality">
+    <option value="720">720p</option>
+    <option value="480">480p</option>
+    <option value="360">360p</option>
+</select>
+<video id="player" width="480" autoplay muted>
+    <source src="/video/720" type="video/mp4">
+</video>
+<button id="btn">Play/Pause</button>
+<script>
+
+    const player = document.getElementById('player');
+    const quality = document.getElementById('quality');
+    quality.addEventListener('change', () => {
+        player.src = `/video/${quality.value}`;
+        player.play();
+    });
+
+    const btn = document.getElementById("btn");
+    btn.addEventListener("click", function () {
+        if (player.paused) {
+            player.play();
+            btn.innerText = 'Pause'
+        } else {
+            player.pause();
+            btn.innerText = 'Play';
+        }
+    });
+    function toggleButtonVisibility(show) {
+        btn.style.opacity = show ? '1' : '0';
+    }
+    player.addEventListener('mouseenter', () => toggleButtonVisibility(true));
+    player.addEventListener('mouseleave', () => toggleButtonVisibility(false));
+    btn.addEventListener('mouseenter', () => toggleButtonVisibility(true));
+    btn.addEventListener('mouseleave', () => toggleButtonVisibility(false));
+
+
+</script>
 
 </html>

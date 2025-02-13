@@ -4,9 +4,11 @@ const path = require('path');
 
 const app = express();
 
-app.get('/video', (req, res) => {
-    // Get the video’s actual location and size
-    const videoPath = path.join(__dirname, 'public', 'video.mp4');
+
+
+app.get('/video/:quality', (req, res) => {
+    const quality = req.params.quality;
+    const videoPath = path.join(__dirname, 'public', `video_${quality}.mp4`);
     const leSize = fs.statSync(videoPath).size;
     // Extract the range requested by the browser
     const range = req.headers.range;
